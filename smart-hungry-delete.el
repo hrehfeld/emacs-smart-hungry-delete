@@ -41,13 +41,31 @@
                                                                  ("[ \t\n]" . ".\\|\n"))
   "A list of pairs of matching regexp that trigger a full delete. The first element needs to match at the beginning of the delete region, the second at the end (always in the same directions).")
 
-(add-hook 'lisp-mode-hook
-          (lambda () 
-            (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
-                         '("(" . "."))
-            (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
-                         '("." . ")"))
-            ))
+(defun smart-hungry-delete/add-regexps-left-right (left-char right-char)
+  "Add regexps that remove all whitespace right of LEFT-CHAR and left of RIGHT-CHAR to the buffer-local smart-hungry-delete/char-trigger-killall-regexps list.
+
+For example with \"(\" \")\", whitespace to the left of ) will be completely deleted."
+  (mapc (lambda (e)
+		  (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps e))
+		`((,left-char . ".")
+		  ("." . ,right-char))))
+
+(defun smart-hungry-delete/default-prog-mode-hook ()
+  (progn
+	(smart-hungry-delete/add-regexps-left-right "(" ")")
+	(smart-hungry-delete/add-regexps-left-right "[" "]")
+	(add-to-list 'smart-hungry-delete/char-trigger-killall-regexps '("." . ","))
+	))
+
+(defun smart-hungry-delete/default-c-mode-common-hook ()
+  (progn
+	(smart-hungry-delete/add-regexps-left-right "<" ">")
+	(add-to-list 'smart-hungry-delete/char-trigger-killall-regexps '("." . ":"))))
+
+
+(add-hook 'prog-mode-hook 'smart-hungry-delete/default-prog-mode-hook)
+(add-hook 'c-mode-common-hook 'smart-hungry-delete/default-c-mode-common-hook)
+(add-hook 'python-mode-hook 'smart-hungry-delete/default-c-mode-common-hook)
 (add-hook 'text-mode-hook
           (lambda () 
             (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
