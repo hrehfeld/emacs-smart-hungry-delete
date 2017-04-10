@@ -12,8 +12,8 @@ alt="Demonstration Video" border="10" /></a>
 * Installing
 No MELPA yet, here's the el-get recipe:
 
-#+begin_elisp
-	  (:name smart-hungry-delete
-			 :type github
-			 :pkgname "hrehfeld/emacs-smart-hungry-delete")
-#+end_elisp
+#+begin_src elisp
+(:name smart-hungry-delete
+ :type github
+ :pkgname "hrehfeld/emacs-smart-hungry-delete")
+#+end_src elisp
