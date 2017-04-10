@@ -8,3 +8,12 @@ Delete whitespace between words, parenthesis and other delimiters in a smart (du
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=pPf5gMxpaHs" target="_blank"><img src="http://img.youtube.com/vi/pPf5gMxpaHs/0.jpg" 
 alt="Demonstration Video" border="10" /></a>
 #+end_html
+
+* Installing
+No MELPA yet, here's the el-get recipe:
+
+#+begin_elisp
+	  (:name smart-hungry-delete
+			 :type github
+			 :pkgname "hrehfeld/emacs-smart-hungry-delete")
+#+end_elisp
