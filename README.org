@@ -5,5 +5,6 @@
 Delete whitespace between words, parenthesis and other delimiters in a smart (dumb) way.
 
 #+begin_html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pPf5gMxpaHs" frameborder="0" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=pPf5gMxpaHs" target="_blank"><img src="http://img.youtube.com/vi/pPf5gMxpaHs/0.jpg" 
+alt="Demonstration Video" border="10" /></a>
 #+end_html
