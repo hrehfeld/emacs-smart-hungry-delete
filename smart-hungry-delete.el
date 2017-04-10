@@ -30,7 +30,7 @@
 
 ;;; Commentary:
 
-;; TODO
+;; Delete whitespace between words with some smartness (dumbness) about words, parenthesis and other delimiters
 
 ;;; Code:
 
