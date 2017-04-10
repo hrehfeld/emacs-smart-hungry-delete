@@ -1,0 +1,9 @@
+
+
+* Smart-hungry-delete
+
+Delete whitespace between words, parenthesis and other delimiters in a smart (dumb) way.
+
+#+begin_html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pPf5gMxpaHs" frameborder="0" allowfullscreen></iframe>
+#+end_html
