@@ -153,9 +153,9 @@ With prefix argument ARG, just delete a single char."
           nil)))))
 (defun smart-hungry-delete/char (prefix &optional backwards)
   "If there is more than one char of whitespace between previous word and point,
- delete all but one unless there's whitespace or newline directly
- after the point--which will delete all whitespace back to
- word--, else fall back to (delete-backward-char 1).
+delete all but one unless there's whitespace or newline directly
+after the point--which will delete all whitespace back to
+word--, else fall back to (delete-backward-char 1).
 
 With PREFIX just delete one char."
   (interactive "P")
