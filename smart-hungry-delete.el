@@ -50,12 +50,16 @@
 
 (defvar-local smart-hungry-delete/char-trigger-killall-regexps '((".\\|\n" . "[ \t\n]")
                                                                  ("[ \t\n]" . ".\\|\n"))
-  "A list of pairs of matching regexp that trigger a full delete. The first element needs to match at the beginning of the delete region, the second at the end (always in the same directions).")
+  "A list of pairs of matching regexp that trigger a full
+  delete. The first element needs to match at the beginning of
+  the delete region, the second at the end (always in the same
+  directions).")
 
 (defun smart-hungry-delete/add-regexps-left-right (left-char right-char)
   "Add regexps that remove all whitespace right of LEFT-CHAR and left of RIGHT-CHAR to the buffer-local smart-hungry-delete/char-trigger-killall-regexps list.
 
-For example with \"(\" \")\", whitespace to the left of ) will be completely deleted."
+For example with \"(\" \")\", whitespace to the left of ) will be
+completely deleted."
   (mapc (lambda (e)
 		  (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps e))
 		`((,left-char . ".")
@@ -85,7 +89,10 @@ For example with \"(\" \")\", whitespace to the left of ) will be completely del
                                                   
 ;;;###autoload
 (defun smart-hungry-delete/backward-char (arg)
-  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delete-backward-char 1).
+  "If there is more than one char of whitespace between previous word and point,
+ delete all but one unless there's whitespace or newline directly
+ after the point--which will delete all whitespace back to
+ word--, else fall back to (delete-backward-char 1).
 
 With prefix argument ARG, just delete a single char."
   (interactive "P")
@@ -94,7 +101,10 @@ With prefix argument ARG, just delete a single char."
 
 ;;;###autoload
 (defun smart-hungry-delete/forward-char (arg)
-  "If there is more than one char of whitespace between point and next word, delete all but one unless there's whitespace or newline directly before the point--which will delete all whitespace up to word--, else fall back to (delete-char 1).
+  "If there is more than one char of whitespace between point and next word,
+ delete all but one unless there's whitespace or newline directly
+ before the point--which will delete all whitespace up to word--,
+ else fall back to (delete-char 1).
 
 With prefix argument ARG, just delete a single char."
   (interactive "P")
@@ -122,7 +132,10 @@ With prefix argument ARG, just delete a single char."
                 smart-hungry-delete/char-trigger-killall-regexps)
           nil)))))
 (defun smart-hungry-delete/char (prefix &optional backwards)
-  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delete-backward-char 1).
+  "If there is more than one char of whitespace between previous word and point,
+ delete all but one unless there's whitespace or newline directly
+ after the point--which will delete all whitespace back to
+ word--, else fall back to (delete-backward-char 1).
 
 With PREFIX just delete one char."
   (interactive "P")
