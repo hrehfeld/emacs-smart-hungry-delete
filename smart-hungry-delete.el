@@ -4,7 +4,7 @@
 
 ;; Author: Hauke Rehfeld <emacs@haukerehfeld.de>
 ;; Version: 0.1
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: convenience
 ;; URL: https://github.com/hrehfeld/emacs-smart-hungry-delete
 
@@ -34,7 +34,7 @@
 
 ;;; Code:
 
-(defvar-local smart-hungry-delete/char-kill-regexp "[ \t]\\{2,\\}" 
+(defvar-local smart-hungry-delete/char-kill-regexp "[ \t]\\{2,\\}"
   "The regexp for chars that get skipped over and killed.")
 
 (defvar-local smart-hungry-delete/char-trigger-killall-regexps '((".\\|\n" . "[ \t\n]")
@@ -67,27 +67,31 @@ For example with \"(\" \")\", whitespace to the left of ) will be completely del
 (add-hook 'c-mode-common-hook 'smart-hungry-delete/default-c-mode-common-hook)
 (add-hook 'python-mode-hook 'smart-hungry-delete/default-c-mode-common-hook)
 (add-hook 'text-mode-hook
-          (lambda () 
+          (lambda ()
             (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
                          '("." . "\\."))
             ))
                                                   
 ;;;###autoload
 (defun smart-hungry-delete/backward-char (arg)
-  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delete-backward-char 1)"
+  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delete-backward-char 1).
+
+With prefix argument ARG, just delete a single char."
   (interactive "P")
   (prefix-command-preserve-state)
   (smart-hungry-delete/char arg t))
 
 ;;;###autoload
 (defun smart-hungry-delete/forward-char (arg)
-  "If there is more than one char of whitespace between point and next word, delete all but one unless there's whitespace or newline directly before the point--which will delete all whitespace up to word--, else fall back to (delete-char 1)"
+  "If there is more than one char of whitespace between point and next word, delete all but one unless there's whitespace or newline directly before the point--which will delete all whitespace up to word--, else fall back to (delete-char 1).
+
+With prefix argument ARG, just delete a single char."
   (interactive "P")
   (prefix-command-preserve-state)
   (smart-hungry-delete/char arg))
 
-(defun smart-hungry-delete/char-trigger (to from) 
-  "Return t if the region (FROM TO) should be killed completely."
+(defun smart-hungry-delete/char-trigger (to from)
+  "Return t if the region (TO FROM) should be killed completely."
   (save-excursion
     (let ((from (min to from))
           (to (max to from)))
@@ -107,7 +111,9 @@ For example with \"(\" \")\", whitespace to the left of ) will be completely del
                 smart-hungry-delete/char-trigger-killall-regexps)
           nil)))))
 (defun smart-hungry-delete/char (prefix &optional backwards)
-  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delpete-backward-char 1)"
+  "If there is more than one char of whitespace between previous word and point, delete all but one unless there's whitespace or newline directly after the point--which will delete all whitespace back to word--, else fall back to (delete-backward-char 1).
+
+With PREFIX just delete one char."
   (interactive "P")
   (if prefix
       (if backwards (delete-char -1) (delete-char 1))
@@ -124,7 +130,7 @@ For example with \"(\" \")\", whitespace to the left of ) will be completely del
       )
     (if (funcall check smart-hungry-delete/char-kill-regexp)
         (let* ((start (funcall kill-end-match 0))
-               (kill-start (if (smart-hungry-delete/char-trigger start (point)) 
+               (kill-start (if (smart-hungry-delete/char-trigger start (point))
                                start
                              (funcall change-point start)
                              )))
@@ -136,3 +142,5 @@ For example with \"(\" \")\", whitespace to the left of ) will be completely del
 
 
 (provide 'smart-hungry-delete)
+
+;;; smart-hungry-delete.el ends here
