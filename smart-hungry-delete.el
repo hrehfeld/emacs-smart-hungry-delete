@@ -77,7 +77,7 @@ completely deleted."
 (defun smart-hungry-delete/default-prog-mode-hook ()
   (progn
 	(smart-hungry-delete/add-regexps-left-right "(" ")")
-	(smart-hungry-delete/add-regexps-left-right "[" "]")
+	(smart-hungry-delete/add-regexps-left-right "\\[" "\\]")
 	(add-to-list 'smart-hungry-delete/char-trigger-killall-regexps '("." . ","))
 	))
 
