@@ -80,14 +80,19 @@ completely deleted."
 	(add-to-list 'smart-hungry-delete/char-trigger-killall-regexps '("." . ":"))))
 
 
-(add-hook 'prog-mode-hook 'smart-hungry-delete/default-prog-mode-hook)
-(add-hook 'c-mode-common-hook 'smart-hungry-delete/default-c-mode-common-hook)
-(add-hook 'python-mode-hook 'smart-hungry-delete/default-c-mode-common-hook)
-(add-hook 'text-mode-hook
-          (lambda ()
-            (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
-                         '("." . "\\."))
-            ))
+(defun smart-hungry-delete/default-text-mode-hook ()
+  (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
+			   '("." . "\\."))
+  )			
+
+(defun smart-hungry-delete/add-default-hooks ()
+  "Add to some hooks for sensible default
+character/word/delimiter configuration."
+  (interactive)
+  (add-hook 'prog-mode-hook 'smart-hungry-delete/default-prog-mode-hook)
+  (add-hook 'c-mode-common-hook 'smart-hungry-delete/default-c-mode-common-hook)
+  (add-hook 'python-mode-hook 'smart-hungry-delete/default-c-mode-common-hook)
+  (add-hook 'text-mode-hook 'smart-hungry-delete/default-text-mode-hook))
                                                   
 ;;;###autoload
 (defun smart-hungry-delete/backward-char (arg)
