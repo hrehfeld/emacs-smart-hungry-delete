@@ -45,6 +45,13 @@
 
 ;;; Code:
 
+(defvar smart-hungry-delete/max-lookback 100
+  "Number of characters to search back in the most.")
+
+(defun smart-hungry-delete/looking-back-limit ()
+  "LIMIT for looking-back."
+  (max 0 (- (point) smart-hungry-delete/max-lookback)))
+
 (defvar-local smart-hungry-delete/char-kill-regexp "[ \t]\\{2,\\}"
   "The regexp for chars that get skipped over and killed.")
 
@@ -132,12 +139,12 @@ With prefix argument ARG, just delete a single char."
                   (let ((left-check (car checks))
                         (right-check (cdr checks)))
                     (when (and (progn (goto-char from)
-                                      (looking-back left-check))
+                                      (looking-back left-check (smart-hungry-delete/looking-back-limit)))
                                (progn (goto-char to)
                                       (looking-at right-check)))
                       (throw 'matched t))))
                 smart-hungry-delete/char-trigger-killall-regexps)
-          nil)))))
+          nil)))))              
 (defun smart-hungry-delete/char (prefix &optional backwards)
   "If there is more than one char of whitespace between previous word and point,
  delete all but one unless there's whitespace or newline directly
