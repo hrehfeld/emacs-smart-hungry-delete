@@ -139,12 +139,16 @@ With prefix argument ARG, just delete a single char."
                   (let ((left-check (car checks))
                         (right-check (cdr checks)))
                     (when (and (progn (goto-char from)
-                                      (looking-back left-check (smart-hungry-delete/looking-back-limit)))
+                                      (with-demoted-errors "Warning: left regexp broken (%S)"
+										(looking-back
+										 left-check
+										 (smart-hungry-delete/looking-back-limit))))
                                (progn (goto-char to)
-                                      (looking-at right-check)))
+                                      (with-demoted-errors "Warning: right regexp broken (%S)"
+										(looking-at right-check))))
                       (throw 'matched t))))
                 smart-hungry-delete/char-trigger-killall-regexps)
-          nil)))))              
+          nil)))))
 (defun smart-hungry-delete/char (prefix &optional backwards)
   "If there is more than one char of whitespace between previous word and point,
  delete all but one unless there's whitespace or newline directly
