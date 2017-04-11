@@ -45,8 +45,16 @@
 
 ;;; Code:
 
-(defvar smart-hungry-delete/max-lookback 100
-  "Number of characters to search back in the most.")
+(defgroup smart-hungry-delete nil "Customs for smart-hungy-delete"
+  :prefix 'smart-hungry-delete/
+  :group 'convenience
+)
+
+(defcustom smart-hungry-delete/max-lookback 100
+  "Number of characters to search back in the most."
+  :type '(int)
+  :safe t
+  )
 
 (defun smart-hungry-delete/looking-back-limit ()
   "LIMIT for `looking-back`."
