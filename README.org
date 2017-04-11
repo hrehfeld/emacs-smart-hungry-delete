@@ -64,10 +64,16 @@ alt="Demonstration Video" border="10" /></a>
 #+end_html
 
 * Installing
-No MELPA yet, here's the el-get recipe:
+Here's the el-get recipe:
 
 #+begin_src elisp
 (:name smart-hungry-delete
  :type github
  :pkgname "hrehfeld/emacs-smart-hungry-delete")
 #+end_src elisp
+
+MELPA recipe:
+
+#+begin_src elisp
+(smart-hungry-delete :repo "hrehfeld/emacs-smart-hungry-delete" :fetcher github)
+#+end_src
