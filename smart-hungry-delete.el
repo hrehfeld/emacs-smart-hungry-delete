@@ -49,7 +49,7 @@
   "Number of characters to search back in the most.")
 
 (defun smart-hungry-delete/looking-back-limit ()
-  "LIMIT for looking-back."
+  "LIMIT for `looking-back`."
   (max 0 (- (point) smart-hungry-delete/max-lookback)))
 
 (defvar-local smart-hungry-delete/char-kill-regexp "[ \t]\\{2,\\}"
@@ -58,9 +58,9 @@
 (defvar-local smart-hungry-delete/char-trigger-killall-regexps '((".\\|\n" . "[ \t\n]")
                                                                  ("[ \t\n]" . ".\\|\n"))
   "A list of pairs of matching regexp that trigger a full
-  delete. The first element needs to match at the beginning of
-  the delete region, the second at the end (always in the same
-  directions).")
+delete. The first element needs to match at the beginning of
+the delete region, the second at the end (always in the same
+directions).")
 
 (defun smart-hungry-delete/add-regexps-left-right (left-char right-char)
   "Add regexps that remove all whitespace right of LEFT-CHAR and
@@ -75,6 +75,7 @@ completely deleted."
 		  ("." . ,right-char))))
 
 (defun smart-hungry-delete/default-prog-mode-hook ()
+  "Add some good default regexps for `prog-mode`-likes."
   (progn
 	(smart-hungry-delete/add-regexps-left-right "(" ")")
 	(smart-hungry-delete/add-regexps-left-right "\\[" "\\]")
@@ -82,19 +83,20 @@ completely deleted."
 	))
 
 (defun smart-hungry-delete/default-c-mode-common-hook ()
+  "Add some good default regexps for `c-mode`-likes."
   (progn
 	(smart-hungry-delete/add-regexps-left-right "<" ">")
 	(add-to-list 'smart-hungry-delete/char-trigger-killall-regexps '("." . ":"))))
 
 
 (defun smart-hungry-delete/default-text-mode-hook ()
+  "Add some good default regexps for `text-mode`."
   (add-to-list 'smart-hungry-delete/char-trigger-killall-regexps
 			   '("." . "\\."))
-  )			
+  )
 
 (defun smart-hungry-delete/add-default-hooks ()
-  "Add to some hooks for sensible default
-character/word/delimiter configuration."
+  "Add to some hooks for sensible default character/word/delimiter configuration."
   (interactive)
   (add-hook 'prog-mode-hook 'smart-hungry-delete/default-prog-mode-hook)
   (add-hook 'c-mode-common-hook 'smart-hungry-delete/default-c-mode-common-hook)
@@ -104,9 +106,9 @@ character/word/delimiter configuration."
 ;;;###autoload
 (defun smart-hungry-delete/backward-char (arg)
   "If there is more than one char of whitespace between previous word and point,
- delete all but one unless there's whitespace or newline directly
- after the point--which will delete all whitespace back to
- word--, else fall back to (delete-backward-char 1).
+delete all but one unless there's whitespace or newline directly
+after the point--which will delete all whitespace back to
+word--, else fall back to (delete-backward-char 1).
 
 With prefix argument ARG, just delete a single char."
   (interactive "P")
@@ -116,9 +118,9 @@ With prefix argument ARG, just delete a single char."
 ;;;###autoload
 (defun smart-hungry-delete/forward-char (arg)
   "If there is more than one char of whitespace between point and next word,
- delete all but one unless there's whitespace or newline directly
- before the point--which will delete all whitespace up to word--,
- else fall back to (delete-char 1).
+delete all but one unless there's whitespace or newline directly
+before the point--which will delete all whitespace up to word--,
+else fall back to (delete-char 1).
 
 With prefix argument ARG, just delete a single char."
   (interactive "P")
