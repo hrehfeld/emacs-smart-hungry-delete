@@ -56,7 +56,9 @@
   directions).")
 
 (defun smart-hungry-delete/add-regexps-left-right (left-char right-char)
-  "Add regexps that remove all whitespace right of LEFT-CHAR and left of RIGHT-CHAR to the buffer-local smart-hungry-delete/char-trigger-killall-regexps list.
+  "Add regexps that remove all whitespace right of LEFT-CHAR and
+left of RIGHT-CHAR to the buffer-local
+smart-hungry-delete/char-trigger-killall-regexps list.
 
 For example with \"(\" \")\", whitespace to the left of ) will be
 completely deleted."
