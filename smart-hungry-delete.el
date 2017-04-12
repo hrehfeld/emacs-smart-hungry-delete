@@ -103,6 +103,7 @@ completely deleted."
 			   '("." . "\\."))
   )
 
+;;;###autoload
 (defun smart-hungry-delete/add-default-hooks ()
   "Add to some hooks for sensible default character/word/delimiter configuration."
   (interactive)
