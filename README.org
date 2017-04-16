@@ -94,3 +94,38 @@ Here's the basic el-get recipe:
  :type github
  :pkgname "hrehfeld/emacs-smart-hungry-delete")
 #+end_src elisp
+
+* Configuration
+
+smart-hungry-delete deletes hungrily if three regexps match:
+
+#+begin_src
+<left><kill>(point)<right>
+#+end_src
+
+or with =smart-hungry-delete-forward-char=:
+
+#+begin_src
+<left>(point)<kill><right>
+#+end_src
+
+You can configure these on a per buffer basis:
+
+=smart-hungry-delete-char-kill-regexp= is a buffer-local variable holding a regex that defines what will be hungrily deleted.
+
+=smart-hungry-delete-char-trigger-killall-regexps= is a list of pairs:
+
+#+begin_src elisp
+'(("\\[" . ".") ;; delete when <left> is "[" and <right> is any of "."
+  ("." . "\\]") ;; delete when <left> is any of "." and <right> is "]"
+  ...)
+#+end_source
+
+=smart-hungry-delete-add-regexps-left-right= makes it easy to add left-right combinations of chars like parentheses:
+
+#+begin_src elisp
+(smart-hungry-delete-add-regexps-left-right "\\{" "\\}") ;;as above, but with "{" and "}"
+#+end_src
+
+
+=smart-hungry-delete-add-default-hooks= will add some good defaults for (some) programming modes. Check out the =smart-hungry-delete-default-*-hook= functions.
