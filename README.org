@@ -129,3 +129,5 @@ You can configure these on a per buffer basis:
 
 
 =smart-hungry-delete-add-default-hooks= will add some good defaults for (some) programming modes. Check out the =smart-hungry-delete-default-*-hook= functions.
+
+If you have good suggestions for more defaults, make sure to [[/hrehfeld/emacs-smart-hungry-delete/issues][suggest the recipes!]]
