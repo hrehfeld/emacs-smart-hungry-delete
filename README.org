@@ -87,7 +87,7 @@ If you use =use-package=:
 #+end_src
 
 
-Here's the el-get recipe:
+Here's the basic el-get recipe:
 
 #+begin_src elisp
 (:name smart-hungry-delete
