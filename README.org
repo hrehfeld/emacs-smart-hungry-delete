@@ -64,6 +64,29 @@ alt="Demonstration Video" border="10" /></a>
 #+end_html
 
 * Installing
+
+It's in [[https://melpa.org][MELPA]], so if you have that in your package lists, just =M-x= =package-install= =smart-hungry-delete=, and bind =smart-hungry-delete-backward-char= and =smart-hungry-delete-forward-char=:
+#+begin_src elisp
+(require 'smart-hungry-delete)
+(smart-hungry-delete-add-default-hooks)
+(global-set-key (kbd "<backspace>") 'smart-hungry-delete-backward-char)
+(global-set-key (kbd "C-d") 'smart-hungry-delete-forward-char)
+#+end_src
+
+
+
+If you use =use-package=:
+#+begin_src elisp
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (("<backspace>" . smart-hungry-delete-backward-char)
+		 ("C-d" . smart-hungry-delete-forward-char))
+  :defer nil ;; dont defer so we can add our functions to hooks 
+  :config (smart-hungry-delete-add-default-hooks)
+  )
+#+end_src
+
+
 Here's the el-get recipe:
 
 #+begin_src elisp
@@ -71,9 +94,3 @@ Here's the el-get recipe:
  :type github
  :pkgname "hrehfeld/emacs-smart-hungry-delete")
 #+end_src elisp
-
-MELPA recipe:
-
-#+begin_src elisp
-(smart-hungry-delete :repo "hrehfeld/emacs-smart-hungry-delete" :fetcher github)
-#+end_src
