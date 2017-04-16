@@ -111,7 +111,7 @@ or with =smart-hungry-delete-forward-char=:
 
 You can configure these on a per buffer basis:
 
-=smart-hungry-delete-char-kill-regexp= is a buffer-local variable holding a regex that defines what will be hungrily deleted.
+=smart-hungry-delete-char-kill-regexp= is a buffer-local variable holding a regex that defines what will be hungrily deleted (<kill>).
 
 =smart-hungry-delete-char-trigger-killall-regexps= is a list of pairs:
 
