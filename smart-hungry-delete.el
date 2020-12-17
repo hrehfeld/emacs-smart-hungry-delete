@@ -187,7 +187,7 @@ With PREFIX just delete one char."
                                start
                              (funcall change-point start)
                              )))
-          (kill-region (min kill-start (point)) (max kill-start (point))))
+          (delete-region (min kill-start (point)) (max kill-start (point))))
       ;just fallback to normal delete
       (funcall fallback 1)
              ))))
