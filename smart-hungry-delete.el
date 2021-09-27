@@ -180,17 +180,19 @@ With PREFIX just delete one char."
               kill-end-match 'match-end
               change-point '1-
               fallback 'delete-char)
-      )
-    (if (funcall check smart-hungry-delete-char-kill-regexp)
-        (let* ((start (funcall kill-end-match 0))
-               (kill-start (if (smart-hungry-delete-char-trigger start (point))
-                               start
-                             (funcall change-point start)
-                             )))
-          (delete-region (min kill-start (point)) (max kill-start (point))))
-      ;just fallback to normal delete
-      (funcall fallback 1)
-             ))))
+        )
+    (if (region-active-p)
+        (delete-region (region-beginning) (region-end))
+      (if (funcall check smart-hungry-delete-char-kill-regexp)
+          (let* ((start (funcall kill-end-match 0))
+                 (kill-start (if (smart-hungry-delete-char-trigger start (point))
+                                 start
+                               (funcall change-point start)
+                               )))
+            (delete-region (min kill-start (point)) (max kill-start (point))))
+        ;just fallback to normal delete
+        (funcall fallback 1))
+        ))))
   
 
 
