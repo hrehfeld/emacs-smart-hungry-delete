@@ -37,10 +37,10 @@
 ;; Usage:
 ;;
 ;; with use-package:
-;; 
+;;
 ;; (use-package smart-hungry-delete
 ;;   :bind (("<backspace>" . smart-hungry-delete-backward-char)
-;; 		 ("C-d" . smart-hungry-delete-forward-char)))
+;;               ("C-d" . smart-hungry-delete-forward-char)))
 
 
 ;;; Code:
@@ -78,29 +78,29 @@ smart-hungry-delete-char-trigger-killall-regexps list.
 For example with \"(\" \")\", whitespace to the left of ) will be
 completely deleted."
   (mapc (lambda (e)
-		  (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps e))
-		`((,left-char . ".")
-		  ("." . ,right-char))))
+                  (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps e))
+                `((,left-char . ".")
+                  ("." . ,right-char))))
 
 (defun smart-hungry-delete-default-prog-mode-hook ()
   "Add some good default regexps for `prog-mode`-likes."
   (progn
-	(smart-hungry-delete-add-regexps-left-right "(" ")")
-	(smart-hungry-delete-add-regexps-left-right "\\[" "\\]")
-	(add-to-list 'smart-hungry-delete-char-trigger-killall-regexps '("." . ","))
-	))
+        (smart-hungry-delete-add-regexps-left-right "(" ")")
+        (smart-hungry-delete-add-regexps-left-right "\\[" "\\]")
+        (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps '("." . ","))
+        ))
 
 (defun smart-hungry-delete-default-c-mode-common-hook ()
   "Add some good default regexps for `c-mode`-likes."
   (progn
-	(smart-hungry-delete-add-regexps-left-right "<" ">")
-	(add-to-list 'smart-hungry-delete-char-trigger-killall-regexps '("." . ":"))))
+        (smart-hungry-delete-add-regexps-left-right "<" ">")
+        (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps '("." . ":"))))
 
 
 (defun smart-hungry-delete-default-text-mode-hook ()
   "Add some good default regexps for `text-mode`."
   (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps
-			   '("." . "\\."))
+                           '("." . "\\."))
   )
 
 ;;;###autoload
@@ -111,7 +111,7 @@ completely deleted."
   (add-hook 'c-mode-common-hook 'smart-hungry-delete-default-c-mode-common-hook)
   (add-hook 'python-mode-hook 'smart-hungry-delete-default-c-mode-common-hook)
   (add-hook 'text-mode-hook 'smart-hungry-delete-default-text-mode-hook))
-                                                  
+
 ;;;###autoload
 (defun smart-hungry-delete-backward-char (arg)
   "If there is more than one char of whitespace between previous word and point,
@@ -151,12 +151,12 @@ With prefix argument ARG, just delete a single char."
                         (right-check (cdr checks)))
                     (when (and (progn (goto-char from)
                                       (with-demoted-errors "Warning: left regexp broken (%S)"
-										(looking-back
-										 left-check
-										 (smart-hungry-delete-looking-back-limit))))
+                                                                                (looking-back
+                                                                                 left-check
+                                                                                 (smart-hungry-delete-looking-back-limit))))
                                (progn (goto-char to)
                                       (with-demoted-errors "Warning: right regexp broken (%S)"
-										(looking-at right-check))))
+                                                                                (looking-at right-check))))
                       (throw 'matched t))))
                 smart-hungry-delete-char-trigger-killall-regexps)
           nil)))))
@@ -180,18 +180,20 @@ With PREFIX just delete one char."
               kill-end-match 'match-end
               change-point '1-
               fallback 'delete-char)
-      )
-    (if (funcall check smart-hungry-delete-char-kill-regexp)
-        (let* ((start (funcall kill-end-match 0))
-               (kill-start (if (smart-hungry-delete-char-trigger start (point))
-                               start
-                             (funcall change-point start)
-                             )))
-          (kill-region (min kill-start (point)) (max kill-start (point))))
-      ;just fallback to normal delete
-      (funcall fallback 1)
-             ))))
-  
+        )
+    (if (region-active-p)
+        (delete-region (region-beginning) (region-end))
+      (if (funcall check smart-hungry-delete-char-kill-regexp)
+          (let* ((start (funcall kill-end-match 0))
+                 (kill-start (if (smart-hungry-delete-char-trigger start (point))
+                                 start
+                               (funcall change-point start)
+                               )))
+            (delete-region (min kill-start (point)) (max kill-start (point))))
+        ;just fallback to normal delete
+        (funcall fallback 1))
+        ))))
+
 
 
 (provide 'smart-hungry-delete)
