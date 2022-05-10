@@ -70,6 +70,7 @@ It's in [[https://melpa.org][MELPA]], so if you have that in your package lists,
 (require 'smart-hungry-delete)
 (smart-hungry-delete-add-default-hooks)
 (global-set-key (kbd "<backspace>") 'smart-hungry-delete-backward-char)
+(global-set-key (kbd "<delete>") 'smart-hungry-delete-backward-char)
 (global-set-key (kbd "C-d") 'smart-hungry-delete-forward-char)
 #+end_src
 
@@ -80,6 +81,7 @@ If you use =use-package=:
 (use-package smart-hungry-delete
   :ensure t
   :bind (("<backspace>" . smart-hungry-delete-backward-char)
+            ("<delete>" . smart-hungry-delete-forward-char)
 		 ("C-d" . smart-hungry-delete-forward-char))
   :defer nil ;; dont defer so we can add our functions to hooks 
   :config (smart-hungry-delete-add-default-hooks)
