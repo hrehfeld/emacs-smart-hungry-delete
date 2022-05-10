@@ -96,6 +96,11 @@ completely deleted."
         (smart-hungry-delete-add-regexps-left-right "<" ">")
         (add-to-list 'smart-hungry-delete-char-trigger-killall-regexps '("." . ":"))))
 
+(defun smart-hungry-delete-default-sgml-mode-common-hook ()
+  "Add some good default regexps for `sgml-mode`-likes."
+  (progn
+        (smart-hungry-delete-add-regexps-left-right "<" ">")))
+
 
 (defun smart-hungry-delete-default-text-mode-hook ()
   "Add some good default regexps for `text-mode`."
@@ -110,6 +115,8 @@ completely deleted."
   (add-hook 'prog-mode-hook 'smart-hungry-delete-default-prog-mode-hook)
   (add-hook 'c-mode-common-hook 'smart-hungry-delete-default-c-mode-common-hook)
   (add-hook 'python-mode-hook 'smart-hungry-delete-default-c-mode-common-hook)
+  (add-hook 'sgml-mode-hook 'smart-hungry-delete-default-sgml-mode-common-hook)
+  (add-hook 'nxml-mode-hook 'smart-hungry-delete-default-sgml-mode-common-hook)
   (add-hook 'text-mode-hook 'smart-hungry-delete-default-text-mode-hook))
 
 ;;;###autoload
