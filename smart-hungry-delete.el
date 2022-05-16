@@ -136,6 +136,8 @@ With prefix argument ARG, just delete a single char."
   (prefix-command-preserve-state)
   (smart-hungry-delete-char arg t))
 
+(put #'smart-hungry-delete-backward-char 'delete-selection 'kill)
+
 ;;;###autoload
 (defun smart-hungry-delete-forward-char (arg)
   "If there is more than one char of whitespace between point and next word,
@@ -147,6 +149,8 @@ With prefix argument ARG, just delete a single char."
   (interactive "P")
   (prefix-command-preserve-state)
   (smart-hungry-delete-char arg))
+
+(put #'smart-hungry-delete-forward-char 'delete-selection 'kill)
 
 (defun smart-hungry-delete-char-trigger (to from)
   "Return t if the region (TO FROM) should be killed completely."
