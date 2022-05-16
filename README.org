@@ -1,6 +1,9 @@
 
 
 * Smart-hungry-delete
+:PROPERTIES:
+:ID:       9e1c02ed-1a3e-4fac-9f74-02e5655a25cd
+:END:
 
 Delete whitespace between words, parenthesis and other delimiters in a smart (dumb) way.
 
@@ -59,12 +62,18 @@ Between words it will leave a space:
 Here's a small demonstration video:
 
 #+begin_html
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=pPf5gMxpaHs" target="_blank"><img src="http://img.youtube.com/vi/pPf5gMxpaHs/0.jpg" 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=pPf5gMxpaHs" target="_blank"><img src="http://img.youtube.com/vi/pPf5gMxpaHs/0.jpg"
 alt="Demonstration Video" border="10" /></a>
 #+end_html
 
 * Installing
-
+:PROPERTIES:
+:ID:       61a5a273-bf5a-4c15-88cf-9884413d10f7
+:END:
+** MELPA
+:PROPERTIES:
+:ID:       2b9c9eb5-10bf-4f4e-9b58-0c98d03b957a
+:END:
 It's in [[https://melpa.org][MELPA]], so if you have that in your package lists, just =M-x= =package-install= =smart-hungry-delete=, and bind =smart-hungry-delete-backward-char= and =smart-hungry-delete-forward-char=:
 #+begin_src elisp
 (require 'smart-hungry-delete)
@@ -75,20 +84,36 @@ It's in [[https://melpa.org][MELPA]], so if you have that in your package lists,
 #+end_src
 
 
-
+** use-package
+:PROPERTIES:
+:ID:       594bf129-2bb3-4bfe-8623-64f40c5bb845
+:END:
 If you use =use-package=:
 #+begin_src elisp
 (use-package smart-hungry-delete
   :ensure t
-  :bind (("<backspace>" . smart-hungry-delete-backward-char)
-            ("<delete>" . smart-hungry-delete-forward-char)
-		 ("C-d" . smart-hungry-delete-forward-char))
-  :defer nil ;; dont defer so we can add our functions to hooks 
-  :config (smart-hungry-delete-add-default-hooks)
-  )
+  :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+	       ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+	       ([remap delete-char] . smart-hungry-delete-forward-char))
+  :init (smart-hungry-delete-add-default-hooks))
+#+end_src
+
+Only for some modes:
+#+begin_src elisp
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (:map python-mode-map
+              ([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+	            ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+	            ([remap delete-char] . smart-hungry-delete-forward-char))
+  :init (smart-hungry-delete-add-default-hooks))
 #+end_src
 
 
+** el-get
+:PROPERTIES:
+:ID:       d49068a3-6332-4db1-aed1-b096cdc9bfe1
+:END:
 Here's the basic el-get recipe:
 
 #+begin_src elisp
@@ -98,6 +123,9 @@ Here's the basic el-get recipe:
 #+end_src elisp
 
 * Configuration
+:PROPERTIES:
+:ID:       02237111-db5b-4d2b-a23a-0ac78c7d80b8
+:END:
 
 smart-hungry-delete deletes hungrily if three regexps match:
 
