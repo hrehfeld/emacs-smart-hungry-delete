@@ -182,7 +182,7 @@ With PREFIX just delete one char."
               fallback 'delete-char)
         )
     (if (region-active-p)
-        (delete-region (region-beginning) (region-end))
+        (kill-region (region-beginning) (region-end) t)
       (if (funcall check smart-hungry-delete-char-kill-regexp)
           (let* ((start (funcall kill-end-match 0))
                  (kill-start (if (smart-hungry-delete-char-trigger start (point))
