@@ -199,8 +199,8 @@ With PREFIX just delete one char."
               change-point '1-
               fallback 'delete-char)
         )
-    (if (region-active-p)
-        (kill-region (region-beginning) (region-end) t)
+    (if (use-region-p)
+        (kill-region nil nil t)
       (let ((kill-hungrily (funcall check smart-hungry-delete-char-kill-regexp)))
         (cond ((functionp kill-hungrily)
                (funcall-interactively kill-hungrily))
