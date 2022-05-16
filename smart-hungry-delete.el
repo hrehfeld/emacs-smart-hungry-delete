@@ -50,6 +50,11 @@
   :group 'convenience
 )
 
+(defcustom smart-hungry-delete-major-mode-dedent-function-alist '((python-mode . (lambda () (interactive) (python-indent-dedent-line-backspace nil))))
+  "Number of characters to search back in the most."
+  :safe t)
+
+
 (defcustom smart-hungry-delete-max-lookback 100
   "Number of characters to search back in the most."
   :type '(int)
@@ -179,7 +184,13 @@ With PREFIX just delete one char."
       (if backwards (delete-char -1) (delete-char 1))
   (let (check kill-end-match change-point fallback)
     (if backwards
-        (setq check (lambda (regexp) (looking-back regexp  0 t))
+        (setq check (lambda (regexp)
+                      (let ((end-of-indentation (save-excursion (back-to-indentation) (point)))
+                            (dedent-fun (alist-get major-mode smart-hungry-delete-major-mode-dedent-function-alist)))
+                        ;; in indentation?
+                        (if (and dedent-fun (<= (point) end-of-indentation))
+                            dedent-fun
+                          (looking-back regexp  0 t))))
               kill-end-match 'match-beginning
               change-point '1+
               fallback 'delete-backward-char)
@@ -190,16 +201,19 @@ With PREFIX just delete one char."
         )
     (if (region-active-p)
         (kill-region (region-beginning) (region-end) t)
-      (if (funcall check smart-hungry-delete-char-kill-regexp)
-          (let* ((start (funcall kill-end-match 0))
-                 (kill-start (if (smart-hungry-delete-char-trigger start (point))
-                                 start
-                               (funcall change-point start)
-                               )))
-            (delete-region (min kill-start (point)) (max kill-start (point))))
-        ;just fallback to normal delete
-        (funcall fallback 1))
-        ))))
+      (let ((kill-hungrily (funcall check smart-hungry-delete-char-kill-regexp)))
+        (cond ((functionp kill-hungrily)
+               (funcall-interactively kill-hungrily))
+              (kill-hungrily
+               (let* ((start (funcall kill-end-match 0))
+                      (kill-start (if (smart-hungry-delete-char-trigger start (point))
+                                      start
+                                    (funcall change-point start)
+                                    )))
+                 (delete-region (min kill-start (point)) (max kill-start (point)))))
+               (t
+                ;;just fallback to normal delete
+                (funcall fallback 1))))))))
 
 
 
