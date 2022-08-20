@@ -61,6 +61,12 @@
   :safe t
   )
 
+(defcustom smart-hungry-delete-add-kill-ring t
+  "If t, deleted region will be added to `kill ring`."
+  :type '(boolean)
+  :safe t
+  )
+
 (defun smart-hungry-delete-looking-back-limit ()
   "LIMIT for `looking-back`."
   (max 0 (- (point) smart-hungry-delete-max-lookback)))
@@ -125,6 +131,14 @@ completely deleted."
   (add-hook 'text-mode-hook 'smart-hungry-delete-default-text-mode-hook))
 
 ;;;###autoload
+(defun smart-hungry-delete-should-add-kill-ring (should-kill)
+  "Choose deleted region should be added to kill ring or not by `SHOULD-KILL`."
+  (interactive)
+  (setq smart-hungry-delete-add-kill-ring should-kill)
+  (put #'smart-hungry-delete-backward-char 'delete-selection (if smart-hungry-delete-add-kill-ring 'kill nil))
+  (put #'smart-hungry-delete-forward-char 'delete-selection (if smart-hungry-delete-add-kill-ring 'kill nil)))
+
+;;;###autoload
 (defun smart-hungry-delete-backward-char (arg)
   "If there is more than one char of whitespace between previous word and point,
 delete all but one unless there's whitespace or newline directly
@@ -135,8 +149,6 @@ With prefix argument ARG, just delete a single char."
   (interactive "P")
   (prefix-command-preserve-state)
   (smart-hungry-delete-char arg t))
-
-(put #'smart-hungry-delete-backward-char 'delete-selection 'kill)
 
 ;;;###autoload
 (defun smart-hungry-delete-forward-char (arg)
@@ -149,8 +161,6 @@ With prefix argument ARG, just delete a single char."
   (interactive "P")
   (prefix-command-preserve-state)
   (smart-hungry-delete-char arg))
-
-(put #'smart-hungry-delete-forward-char 'delete-selection 'kill)
 
 (defun smart-hungry-delete-char-trigger (to from)
   "Return t if the region (TO FROM) should be killed completely."
@@ -204,7 +214,7 @@ With PREFIX just delete one char."
               fallback 'delete-char)
         )
     (if (use-region-p)
-        (kill-region nil nil t)
+        (if smart-hungry-delete-add-kill-ring (kill-region nil nil t) (delete-region (region-beginning) (region-end)))
       (let ((kill-hungrily (funcall check smart-hungry-delete-char-kill-regexp)))
         (cond ((functionp kill-hungrily)
                (funcall-interactively kill-hungrily))

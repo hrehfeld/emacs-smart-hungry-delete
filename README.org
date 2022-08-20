@@ -78,6 +78,7 @@ It's in [[https://melpa.org][MELPA]], so if you have that in your package lists,
 #+begin_src elisp
 (require 'smart-hungry-delete)
 (smart-hungry-delete-add-default-hooks)
+(smart-hungry-delete-should-add-kill-ring t)
 (global-set-key (kbd "<backspace>") 'smart-hungry-delete-backward-char)
 (global-set-key (kbd "<delete>") 'smart-hungry-delete-backward-char)
 (global-set-key (kbd "C-d") 'smart-hungry-delete-forward-char)
@@ -93,9 +94,11 @@ If you use =use-package=:
 (use-package smart-hungry-delete
   :ensure t
   :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
-	       ([remap delete-backward-char] . smart-hungry-delete-backward-char)
-	       ([remap delete-char] . smart-hungry-delete-forward-char))
-  :init (smart-hungry-delete-add-default-hooks))
+           ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+           ([remap delete-char] . smart-hungry-delete-forward-char))
+  :init
+    (smart-hungry-delete-add-default-hooks)
+    (smart-hungry-delete-should-add-kill-ring t))
 #+end_src
 
 Only for some modes:
@@ -104,9 +107,11 @@ Only for some modes:
   :ensure t
   :bind (:map python-mode-map
               ([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
-	            ([remap delete-backward-char] . smart-hungry-delete-backward-char)
-	            ([remap delete-char] . smart-hungry-delete-forward-char))
-  :init (smart-hungry-delete-add-default-hooks))
+                ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+                ([remap delete-char] . smart-hungry-delete-forward-char))
+  :init
+    (smart-hungry-delete-add-default-hooks)
+    (smart-hungry-delete-should-add-kill-ring t))
 #+end_src
 
 
@@ -159,5 +164,7 @@ You can configure these on a per buffer basis:
 
 
 =smart-hungry-delete-add-default-hooks= will add some good defaults for (some) programming modes. Check out the =smart-hungry-delete-default-*-hook= functions.
+
+=smart-hungry-delete-should-add-kill-ring= will change whether the deleted regions is added to `kill ring` or not. Default `t`.
 
 If you have good suggestions for more defaults, make sure to [[https://github.com/hrehfeld/emacs-smart-hungry-delete/issues][suggest the recipes!]]
