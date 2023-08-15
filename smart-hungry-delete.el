@@ -147,7 +147,6 @@ else fall back to (delete-char 1).
 
 With prefix argument ARG, just delete a single char."
   (interactive "P")
-  (prefix-command-preserve-state)
   (smart-hungry-delete-char arg))
 
 (put #'smart-hungry-delete-forward-char 'delete-selection 'kill)
@@ -185,7 +184,9 @@ word--, else fall back to (delete-backward-char 1).
 With PREFIX just delete one char."
   (interactive "P")
   (if prefix
-      (if backwards (delete-char -1) (delete-char 1))
+      (if (integerp prefix)
+          (delete-char prefix)
+        (if backwards (delete-char -1) (delete-char 1)))
   (let (check kill-end-match change-point fallback)
     (if backwards
         (setq check (lambda (regexp)
